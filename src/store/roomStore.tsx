@@ -1,4 +1,4 @@
-import React, {createContext, ReactNode, useContext} from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
 
 const RoomContext = createContext<RoomStore | undefined>(undefined);
 

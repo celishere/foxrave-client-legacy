@@ -1,4 +1,4 @@
-import React, {createContext, ReactNode, useContext} from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
 
 const ChatContext = createContext<ChatStore | undefined>(undefined);
 

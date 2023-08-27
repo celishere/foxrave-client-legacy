@@ -1,7 +1,9 @@
-import {useContext, useEffect} from "react";
-import {Context} from "foxrave/pages/_app";
+import { useContext, useEffect } from "react";
+
+import { useRouter } from "next/router";
+
 import Loading from "foxrave/shared/ui/Loading";
-import {useRouter} from "next/router";
+import { Context } from "foxrave/pages/_app";
 
 function Logout() {
     let { store } = useContext(Context);

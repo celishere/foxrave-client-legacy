@@ -1,12 +1,14 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import Store, {AuthState} from "foxrave/store/store";
-import {ThemeProvider} from "next-themes";
-import {createTheme, NextUIProvider} from "@nextui-org/react";
+import { ThemeProvider } from "next-themes";
+import { createTheme, NextUIProvider } from "@nextui-org/react";
 
-import {Toaster} from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+
 import Loading from "foxrave/shared/ui/Loading";
-import {FoxRaveProvider} from "foxrave/shared/types/appContext";
+
+import { FoxRaveProvider } from "foxrave/shared/types/appContext";
+import Store, { AuthState } from "foxrave/store/store";
 
 import "foxrave/shared/assets/css/globals.css";
 

@@ -1,9 +1,10 @@
-import {Card, Spacer, Text} from "@nextui-org/react";
+import { useContext } from "react";
+
+import { Card, Spacer, Text } from "@nextui-org/react";
+
+import { Context } from "foxrave/pages/_app";
 
 import styles from 'foxrave/shared/assets/css/AuthCard.module.css';
-
-import {useContext} from "react";
-import {Context} from "foxrave/pages/_app";
 
 const VerifyCard = () => {
     const { store } = useContext(Context)

@@ -1,12 +1,14 @@
+import toast from "react-hot-toast";
+
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+
 import AuthService from "foxrave/services/AuthService";
 
 import { IUser } from "foxrave/models/IUser";
 import { AuthResponse } from "foxrave/models/response/AuthResponse";
 
 import $api, { API_URL } from "foxrave/http";
-import toast from "react-hot-toast";
 
-import {deleteCookie, getCookie, setCookie} from 'cookies-next';
 import Loading from "foxrave/shared/ui/Loading";
 
 export enum AuthState {

@@ -1,10 +1,13 @@
-import {useContext} from "react";
-import {Context} from "foxrave/pages/_app";
-import {useRouter} from "next/router";
+import { useContext } from "react";
+
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { Context } from "foxrave/pages/_app";
 
 import Room from 'foxrave/shared/ui/Room';
-import {RoomContextProvider} from "foxrave/store/roomStore";
-import Head from "next/head";
+
+import { RoomContextProvider } from "foxrave/store/roomStore";
 
 function RoomPage() {
     let { store } = useContext(Context);

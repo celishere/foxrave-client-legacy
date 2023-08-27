@@ -1,6 +1,7 @@
 import axios from 'axios';
-import {AuthResponse} from "foxrave/models/response/AuthResponse";
-import {getCookie} from "cookies-next";
+import { getCookie } from "cookies-next";
+
+import { AuthResponse } from "foxrave/models/response/AuthResponse";
 
 export const API_URL = process.env.API_URL;
 
@@ -25,12 +26,12 @@ $api.interceptors.response.use((config) => {
         originalRequest._isRetry = true;
 
         try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
+            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, { withCredentials: true })
             localStorage.setItem('token', response.data.accessToken);
 
             return $api.request(originalRequest);
         } catch (e) {
-            console.log('НЕ АВТОРИЗОВАН')
+            console.log("Invalid session")
         }
     }
 

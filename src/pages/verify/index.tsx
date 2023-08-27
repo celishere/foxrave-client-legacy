@@ -1,11 +1,15 @@
+import { useContext } from "react";
+
+import { useRouter } from "next/router";
+
 import { Grid, Spacer, Text } from "@nextui-org/react";
 
-import {Logo} from "foxrave/shared/assets/svg/Logo";
+import { Logo } from "foxrave/shared/assets/svg/Logo";
 import styles from 'foxrave/shared/assets/css/Auth.module.css';
+
 import VerifyCard from "foxrave/shared/ui/VerifyCard";
-import {useContext} from "react";
-import {Context} from "foxrave/pages/_app";
-import {useRouter} from "next/router";
+
+import { Context } from "foxrave/pages/_app";
 
 function Verify() {
     let { store } = useContext(Context);

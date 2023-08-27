@@ -1,6 +1,6 @@
-import { useRoomContext } from "foxrave/store/roomStore";
-
 import { API_URL } from "foxrave/http";
+
+import { useRoomContext } from "foxrave/store/roomStore";
 
 import styles from "foxrave/shared/assets/css/Room.module.css";
 import Chat from "foxrave/shared/ui/Room/helpers/Chat";

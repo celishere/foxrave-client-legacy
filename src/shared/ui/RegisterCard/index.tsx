@@ -1,9 +1,11 @@
-import {Button, Card, Grid, Input, Spacer, Text} from "@nextui-org/react";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+
+import { Button, Card, Grid, Input, Spacer, Text } from "@nextui-org/react";
+
+import { Context } from "foxrave/pages/_app";
 
 import styles from 'foxrave/shared/assets/css/AuthCard.module.css';
-import {useRouter} from "next/router";
-import {useContext, useState} from "react";
-import {Context} from "foxrave/pages/_app";
 
 const RegisterCard = () => {
     let router = useRouter();

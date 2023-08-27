@@ -1,6 +1,8 @@
-import {useContext} from "react";
-import {Context} from "foxrave/pages/_app";
-import {useRouter} from "next/router";
+import { useContext } from "react";
+
+import { useRouter } from "next/router";
+
+import { Context } from "foxrave/pages/_app";
 
 function App() {
     let { store } = useContext(Context);

@@ -1,8 +1,21 @@
-import {Button, Card, Grid, Spacer, Text} from "@nextui-org/react";
+import { useContext, useEffect, useRef, useState } from "react";
 
-import {useContext, useEffect, useRef, useState} from "react";
+import { useRouter } from "next/router";
 
-import {Crop, PixelCrop, ReactCrop} from "react-image-crop";
+import { Button, Card, Grid, Spacer, Text } from "@nextui-org/react";
+
+import toast from "react-hot-toast";
+
+import { Crop, PixelCrop, ReactCrop } from "react-image-crop";
+
+import { API_URL } from "foxrave/http";
+
+import { Context } from "foxrave/pages/_app";
+
+import AuthService from "foxrave/services/AuthService";
+import StorageService from "foxrave/services/StorageService";
+
+import { Mood } from "foxrave/models/response/AuthResponse";
 
 import { useDebounceEffect } from 'foxrave/shared/types/useDebounceEffect';
 import { canvasPreview } from 'foxrave/shared/types/canvasPreview';
@@ -10,13 +23,6 @@ import { canvasPreview } from 'foxrave/shared/types/canvasPreview';
 import styles from 'foxrave/shared/assets/css/Setup.module.css';
 
 import 'react-image-crop/dist/ReactCrop.css'
-import toast from "react-hot-toast";
-import AuthService from "foxrave/services/AuthService";
-import {Context} from "foxrave/pages/_app";
-import StorageService from "foxrave/services/StorageService";
-import {Mood} from "foxrave/models/response/AuthResponse";
-import {useRouter} from "next/router";
-import {API_URL} from "foxrave/http";
 
 const VerifyCard = () => {
     const placeholder = `${API_URL}/storage/avatar/1`;
