@@ -1,0 +1,343 @@
+.chatFrame {
+    background: #000000;
+    word-wrap: break-word;
+    outline: none;
+    box-sizing: border-box;
+
+    width: 300px;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    --base-width: 8px;
+
+    margin: 0;
+    padding: 0;
+}
+
+/* .onboard_sidebar-container__RgKKQ */
+.chatContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    padding: 16px;
+    transition: opacity .2s ease;
+    width: 100%;
+}
+
+/* .onboard_sidebar-party-view-active__wp\+5N */
+.chatContainerDisplay {
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: space-around;
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.chatContainerView {
+    height: 100%;
+    width: 100%;
+}
+
+/* #onboard_sidebar-input-container__J4WPb  */
+.inputContainer {
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.14) 0 4px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 0px;
+    position: relative;
+    width: 260px;
+    background: #000000;
+    border: 1.5px solid rgba(140, 0, 255, 0.44);
+    border-radius: 4px;
+    transition: all 2s ease 0s;
+}
+
+.input {
+    border: none!important;
+    resize: none;
+
+    line-height: 150%;
+
+    overflow-wrap: break-word;
+    width: 98%;
+    word-break: break-word;
+
+    margin: 0 auto;
+    margin-bottom: 5px;
+    margin-top: 2px;
+
+    font-size: 14px;
+
+    background: rgba(0,0,0,0);
+
+    height: auto;
+    min-height: 60px;
+    max-height: 180px;
+}
+
+.input::-webkit-scrollbar {
+    width: 5px;
+}
+
+.input::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, rgb(208, 0, 255), rgba(184, 94, 246, 0.53));
+}
+
+.input::-webkit-scrollbar-thumb:hover {
+    background-color: #ffffff;
+}
+
+.input::-webkit-scrollbar-track {
+    background: linear-gradient(to bottom, rgba(157, 0, 143, 0.94), rgba(130, 0, 204, 0.3));
+}
+
+.input:focus {
+    outline-width: 0;
+}
+
+.spacer {
+    height: 20px;
+    width: 100%;
+}
+
+.chatHistoryContainer {
+    display: flex;
+    flex: 1 1;
+    flex-flow: column;
+    justify-content: flex-start;
+    margin-top: 8px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0;
+    width: 100%;
+    min-width: 0;
+}
+
+.chatHistoryContainer>:first-child {
+    margin-top: auto;
+}
+
+.info-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.message {
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    transition: .1s ease;
+    width: 100%;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    margin-right: 1rem;
+
+    border: 2px solid rgba(163, 43, 255, 0.82);
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+.message-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.username {
+    display: flex;
+    align-items: center;
+}
+
+.emoticon {
+    width: 16px;
+    height: 16px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.emoticonSettings {
+    width: 18px;
+    height: 18px;
+    margin-bottom: -2px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+
+    pointer-events: none;
+}
+
+.emoticonSettingsGrid {
+    width: 18px;
+    height: 18px;
+    margin-bottom: -4px;
+    margin-left: 0.25rem;
+    margin-right: 0.5rem;
+
+    pointer-events: none;
+}
+
+.emoticonSettingsButton {
+    width: 26px;
+    height: 26px;
+
+    cursor: pointer;
+
+    background: #525252;
+
+    border-radius: 10px;
+}
+
+.time {
+    color: #999;
+}
+
+.message-text {
+    border-radius: 1rem;
+    word-wrap: break-word; /* This ensures long words are wrapped */
+    width: 168px;
+}
+
+.message-text p {
+    font-size: 14px;
+}
+
+.inputControls {
+    align-items: center;
+    border-radius: 0 0 4px 4px;
+    display: flex;
+    flex: 1 1;
+    flex-direction: row-reverse;
+    height: 32px;
+    height: calc(var(--base-width)*4);
+    width: 100%;
+}
+
+.inputButton {
+    background: rgba(0.0, 0.0, 0.0, 0.0);
+    border: 2px solid rgba(140, 0, 255, 0.55);
+    border-radius: 10px;
+
+    margin-right: 5px;
+    padding-left: 2px;
+    padding-top: 2px;
+
+    margin-bottom: 3px;
+
+    cursor: pointer;
+
+    float: right;
+    height: 28px;
+    width: 28px;
+}
+
+.typingCache {
+    min-height: 2rem;
+    color: rgba(173, 173, 173, 0.84);
+}
+
+.header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 38px;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.headerButton {
+    height: 40px;
+    width: 40px;
+}
+
+.headerAvatar {
+    width: 40px;
+    height: 40px;
+
+    margin: 0 auto;
+
+    border: 3px solid rgba(163, 43, 255, 0.82);
+    border-radius: 50%;
+}
+
+.seperator {
+    flex: 1 1 0%;
+}
+
+.settingsAvatar {
+    width: 200px;
+    height: 200px;
+
+    margin: 0 auto;
+
+    border: 3px solid rgba(163, 43, 255, 0.82);
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+.settingsAvatarSet {
+    width: 200px;
+    height: 200px;
+
+    margin: 0 auto;
+
+    border: 3px solid rgba(163, 43, 255, 0.82);
+}
+
+.settingsAvatarSetImage {
+    width: 200px;
+    height: 200px;
+
+    margin: 0 auto;
+}
+
+.warningText {
+    margin: 0 auto;
+    color: rgb(189, 189, 189);
+
+    font-size: 12px;
+}
+
+.fileInputLabel {
+    display: inline-block;
+    padding: 10px;
+
+    border: 2px solid rgba(163, 43, 255, 0.82);
+    border-radius: 20px;
+
+    background: rgba(44, 44, 44, 0.67);
+
+    cursor: pointer;
+}
+
+.fileInput {
+    display: none;
+}
+
+.selectedFileName {
+    font-size: 11px;
+    color: #8f8f8f;
+
+    right: 0;
+    padding-right: 35px;
+    padding-top: 4px;
+
+    max-width: 190px;
+
+    position: absolute;
+}

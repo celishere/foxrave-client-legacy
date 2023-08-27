@@ -1,0 +1,111 @@
+.text {
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.settingsAvatar {
+    width: 200px;
+    height: 200px;
+
+    margin: 0 auto;
+
+    border: 3px solid rgba(163, 43, 255, 0.82);
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+.settingsAvatarSet {
+    width: 200px;
+    height: 200px;
+
+    margin: 0 auto;
+
+    border: 3px solid rgba(163, 43, 255, 0.82);
+}
+
+.settingsAvatarSetImage {
+    width: 200px;
+    height: 200px;
+
+    margin: 0 auto;
+}
+
+.fileInputLabel {
+    display: inline-block;
+    padding: 10px;
+
+    border: 2px solid rgba(163, 43, 255, 0.82);
+    border-radius: 20px;
+
+    background: rgba(44, 44, 44, 0.67);
+
+    cursor: pointer;
+}
+
+.fileInput {
+    display: none;
+}
+
+.selectedFileName {
+    font-size: 11px;
+    color: #8f8f8f;
+
+    right: 0;
+    padding-right: 35px;
+    padding-top: 4px;
+
+    max-width: 190px;
+
+    position: absolute;
+}
+
+.emoticon {
+    width: 16px;
+    height: 16px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.emoticonSettings {
+    width: 18px;
+    height: 18px;
+    margin-bottom: -2px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+
+    pointer-events: none;
+}
+
+.emoticonSettingsGrid {
+    width: 18px;
+    height: 18px;
+    margin-bottom: -4px;
+    margin-left: 0.25rem;
+    margin-right: 0.5rem;
+
+    pointer-events: none;
+}
+
+.emoticonSettingsButton {
+    width: 26px;
+    height: 26px;
+
+    cursor: pointer;
+
+    background: #525252;
+
+    border-radius: 10px;
+}
+
+.emoticonSettingsSelectedButton {
+    width: 26px;
+    height: 26px;
+
+    cursor: pointer;
+
+    background: #cecece;
+
+    border-radius: 10px;
+}

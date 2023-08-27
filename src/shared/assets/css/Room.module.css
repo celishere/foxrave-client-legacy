@@ -1,0 +1,140 @@
+.container {
+    z-index: -1;
+
+    margin: 0 auto;
+
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(64, 4, 136, 0.23) 0%, rgba(91,16,113,0.2) 48%, rgba(222,0,255,0.1) 100%);
+}
+
+@media(min-aspect-ratio: 16/9) {
+    .container {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media(max-aspect-ratio: 16 / 9) {
+    .container {
+        width: auto;
+        height: 100%;
+    }
+}
+
+.chatFrame {
+    background: #000000;
+    word-wrap: break-word;
+    outline: none;
+    box-sizing: border-box;
+
+    width: 300px;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    --base-width: 8px;
+
+    margin: 0;
+    padding: 0;
+}
+
+/* .onboard_sidebar-container__RgKKQ */
+.chatContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    padding: 16px;
+    transition: opacity .2s ease;
+    width: 100%;
+}
+
+/* .onboard_sidebar-party-view-active__wp\+5N */
+.chatContainerDisplay {
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: space-around;
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.chatContainerView {
+    height: 100%;
+    width: 100%;
+}
+
+/* #onboard_sidebar-input-container__J4WPb  */
+.inputContainer {
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.14) 0 4px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 0px;
+    position: relative;
+    width: 260px;
+    background: #000000;
+    border: 1.5px solid #ff0000;
+    border-radius: 4px;
+    transition: all 2s ease 0s;
+}
+
+.input {
+    border: none!important;
+    line-height: 150%;
+    margin-top: calc(var(--base-width)*1);
+    margin-left: 12px;
+    max-height: 80px;
+    max-height: calc(var(--base-width)*10);
+    min-height: 32px;
+    min-height: calc(var(--base-width)*4);
+    overflow-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+    vertical-align: initial;
+    white-space: pre-wrap;
+    width: 100%;
+    word-break: break-word;
+}
+
+.input:focus {
+    outline-width: 0;
+}
+
+.spacer {
+    height: 20px;
+    width: 100%;
+}
+
+.chatHistoryContainer {
+    display: flex;
+    flex: 1 1;
+    flex-flow: column;
+    justify-content: flex-start;
+    margin-top: 8px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0;
+    width: 100%;
+}
+
+.chatHistoryContainer>:first-child {
+    margin-top: auto;
+}
+
+.message {
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    padding: 12px 10px 4px;
+    transition: .1s ease;
+    width: 100%;
+}

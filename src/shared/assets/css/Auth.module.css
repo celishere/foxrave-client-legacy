@@ -1,0 +1,31 @@
+.pageContainer {
+  height: 100vh;
+}
+
+.authContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.legalContainer {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  max-width: 390px;
+}
+
+.legalText {
+  text-align: center;
+  max-width: 96%;
+  margin: 20px auto 0;
+  font-size: 16px !important;
+  line-height: 20px;
+}

@@ -1,0 +1,27 @@
+html, body, #app, #app>div {
+    height: 100%
+}
+
+* {
+    --nextui-colors-background: rgba(0.0, 0.0, 0.0, 0.0);
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.18);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(36, 31, 58, 0.64);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.45);
+}
