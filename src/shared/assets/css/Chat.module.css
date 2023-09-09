@@ -140,6 +140,9 @@
     flex-direction: row;
     transition: .1s ease;
     width: 100%;
+
+    margin-bottom: 8px;
+    margin-right: 10px;
 }
 
 .avatar {
@@ -206,13 +209,18 @@
     color: #999;
 }
 
-.message-text {
+.messageText {
     border-radius: 1rem;
     word-wrap: break-word; /* This ensures long words are wrapped */
     width: 168px;
+
+    font-family: "Calibri Light";
+    font-size: 18px;
+
+    line-height: 22px;
 }
 
-.message-text p {
+.messageText p {
     font-size: 14px;
 }
 
@@ -275,7 +283,7 @@
 }
 
 .seperator {
-    flex: 1 1 0%;
+    flex: 1 1 0;
 }
 
 .settingsAvatar {
@@ -340,4 +348,48 @@
     max-width: 190px;
 
     position: absolute;
+}
+
+.unreadContainer {
+    position: absolute;
+    bottom: 125px;
+    right: 50px;
+    width: 35px;
+    height: 35px;
+    background-color: #414141;
+    color: white;
+
+    border: 2px solid #595159;
+    border-radius: 50%;
+
+    text-align: center;
+    line-height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 9999;
+    pointer-events: auto;
+}
+
+.unreadCount {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.reply {
+    margin-bottom: 9px;
+    margin-left: 15px;
+    color: #5d5d5d;
+    border: none;
+    cursor: pointer;
+
+    height: 15px;
+    width: 15px;
+}
+
+.reply:hover {
+    color: #333333;
 }

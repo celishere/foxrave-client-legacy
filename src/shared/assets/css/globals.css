@@ -4,6 +4,7 @@ html, body, #app, #app>div {
 
 * {
     --nextui-colors-background: rgba(0.0, 0.0, 0.0, 0.0);
+    --vm-controls-height: 0 !important;
 }
 
 /* width */

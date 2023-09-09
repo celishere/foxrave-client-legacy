@@ -10,6 +10,7 @@ import { AuthResponse } from "foxrave/models/response/AuthResponse";
 import $api, { API_URL } from "foxrave/http";
 
 import Loading from "foxrave/shared/ui/Loading";
+import Cookies from "universal-cookie";
 
 export enum AuthState {
     LOADING,
@@ -82,7 +83,7 @@ export default class Store {
         }
     }
 
-    async logout(router: any) {
+    async logout() {
         try {
             await AuthService.logout();
 
@@ -92,10 +93,6 @@ export default class Store {
             this.setUser({} as IUser);
 
             deleteCookie('refreshToken')
-
-            console.log(getCookie('refreshToken'))
-
-            router.push('/')
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message)
@@ -126,17 +123,15 @@ export default class Store {
 
             console.log(response.data);
             localStorage.setItem('token', response.data.accessToken);
+            setCookie('refreshToken', response.data.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000 })
 
             this.setAuth(true);
             this.setUser(response.data.user);
-
-            console.log(response.data.user)
 
             if (!response.data.user.isActivated) {
                 return AuthState.VERIFICATION;
             }
 
-            console.log(response.data.user)
             if (!response.data.user.avatar || !response.data.user.mood) {
                 return AuthState.SETUP;
             }
@@ -175,6 +170,11 @@ export default class Store {
             return check('/verify')
         } else if (this.state === AuthState.SETUP) {
             return check('/setup')
+        } else if (this.state === AuthState.AUTHORIZED) {
+            if (path === '/setup' || path === '/register' || path === '/login') {
+                router.push('/')
+                return <Loading />;
+            }
         }
 
         return page;

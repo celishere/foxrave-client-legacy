@@ -4,6 +4,10 @@ import { useRouter } from "next/router";
 
 import { Context } from "foxrave/pages/_app";
 
+import { Grid } from "@nextui-org/react";
+import styles from 'foxrave/shared/assets/css/Auth.module.css';
+import IndexCard from "foxrave/shared/ui/IndexCard";
+
 function App() {
     let { store } = useContext(Context);
     const router = useRouter();
@@ -11,7 +15,13 @@ function App() {
     console.log(store.state);
 
     return store.checkAccess(router, (
-        <div>Soon | Go to /rooms/:id</div>
+        <Grid className={ styles.pageContainer }>
+            <div className={ styles.authContainer }>
+                <Grid.Container justify="center">
+                    <IndexCard/>
+                </Grid.Container>
+            </div>
+        </Grid>
     ))
 }
 

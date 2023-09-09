@@ -1,11 +1,11 @@
 {
   "name": "client-side",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev -p 80",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 80",
     "lint": "next lint"
   },
   "dependencies": {
@@ -13,9 +13,7 @@
     "@types/node": "20.5.2",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
-    "@vime/core": "^5.4.1",
-    "@vime/react": "5.0.33",
-    "@vime/svelte": "^5.4.1",
+    "@vidstack/react": "^0.6.13",
     "browser-image-resizer": "^2.4.1",
     "cookies-next": "^3.0.0",
     "next": "13.4.19",
@@ -25,9 +23,12 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-image-crop": "^10.1.5",
-    "typescript": "5.1.6"
+    "react-scroll-to-bottom": "^4.2.0",
+    "typescript": "5.1.6",
+    "vidstack": "^0.6.13"
   },
   "devDependencies": {
-    "@types/pica": "^9.0.1"
+    "@types/pica": "^9.0.1",
+    "@types/react-scroll-to-bottom": "^4.2.1"
   }
 }

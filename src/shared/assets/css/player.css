@@ -1,11 +1,12 @@
-vm-player {
-    width: calc(100% - 292px);
-
+media-player {
+    width: calc(100% - 300px);
     margin: 0;
     position: absolute;
     top: 50%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+
+    --vm-controls-height: 0 !important;
 }
 
 .playerContainer {

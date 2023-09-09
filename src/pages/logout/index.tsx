@@ -10,7 +10,11 @@ function Logout() {
     const router = useRouter();
 
     useEffect(() => {
-        store.logout(router);
+        store.logout().then(() => {
+            setTimeout(() => {
+                router.push("/")
+            }, 1000)
+        });
     }, []);
 
     return (
