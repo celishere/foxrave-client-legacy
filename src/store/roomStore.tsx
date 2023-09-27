@@ -1,7 +1,8 @@
-import React, { createContext, ReactNode, useContext } from 'react';
+import React, {createContext, ReactNode, useContext} from 'react';
 import socketHelper from "foxrave/shared/types/socketHelper";
 import {getCookie} from "cookies-next";
 import ChatHistory from "foxrave/store/chatStore";
+import ChatStore, {MessageProps} from "foxrave/store/chatStore";
 
 const RoomContext = createContext<RoomStore | undefined>(undefined);
 
@@ -39,6 +40,8 @@ export default class RoomStore {
     socket = {} as WebSocket;
     chatHistory: ChatHistory | null = null;
 
+    retries = 0
+
     static instance: RoomStore | undefined
 
     static getInstance(): RoomStore {
@@ -58,7 +61,12 @@ export default class RoomStore {
     connect(id: string) {
         console.log(`WebSocket | Connecting... | ID: ${id}`);
 
-        this.socket = new WebSocket(`ws://localhost:4040/room/${id}?${ getCookie('refreshToken') }`);
+        if (this.retries > 3) {
+            window.location.href = "/"
+            return
+        }
+
+        this.socket = new WebSocket(`${ process.env.WS_URL }/room/${id}?${ localStorage.getItem('refreshToken') }`);
         this.socket.onopen = () => {
             console.log(`WebSocket | Created connection.`);
 
@@ -74,6 +82,21 @@ export default class RoomStore {
 
         this.socket.onclose = () => {
             console.log(`WebSocket | Closed connection.`);
+
+            ChatStore.getInstance().push({
+                userId: "server",
+                userRole: 3,
+                username: "Сервер",
+                avatar: `${ process.env.API_URL }/storage/avatar/server`,
+                mood: 25,
+                text: "Reconnecting..."
+            } as MessageProps)
+
+            setTimeout(() => {
+                this.retries += 1
+
+                this.connect(id)
+            }, 3000)
         }
     }
 }

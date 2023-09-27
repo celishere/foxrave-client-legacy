@@ -1,4 +1,4 @@
-import {FormEvent, MutableRefObject, useEffect, useRef, useState} from "react";
+import { FormEvent, MutableRefObject, useEffect, useRef, useState } from "react";
 
 import styles from "foxrave/shared/assets/css/Chat.module.css";
 import { Send } from "foxrave/shared/assets/svg/Send";
@@ -6,11 +6,18 @@ import { Send } from "foxrave/shared/assets/svg/Send";
 import RoomStore from "foxrave/store/roomStore";
 import SocketHelper from "foxrave/shared/types/socketHelper";
 
+import GifPicker, { TenorImage, Theme } from "gif-picker-react";
+import { GIF } from "foxrave/shared/assets/svg/GIF";
+
+import ChatHelper from "foxrave/shared/types/chatHelper";
+
 export const Input = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const typingTimeoutRef: MutableRefObject<number | null> = useRef(null);
 
     const [inputValue, setInputValue] = useState("");
+
+    const [usingGif, setUsingGif] = useState(false);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -18,6 +25,10 @@ export const Input = () => {
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
     }, [inputValue]);
+
+    const openGifGallery = () => {
+        setUsingGif(!usingGif)
+    }
 
     const sendTypingStatus = (status: boolean) => {
         SocketHelper.send(RoomStore.getInstance().socket, "room:chat.typing", { status })
@@ -49,7 +60,22 @@ export const Input = () => {
     };
 
     return (
-        <div className={ styles.inputContainer }>
+        <>
+            {
+                usingGif && <>
+                    <div className={ styles.gifSelector }>
+                        <GifPicker
+                            tenorApiKey={"AIzaSyB6XuBVUl8MjMuVTcdFbWpnQ2bsZ-OLxxo"}
+                            width={260}
+                            theme={Theme.DARK}
+                            onGifClick={ (image: TenorImage) => {
+                                ChatHelper.getInstance().sendGif(image.url)
+                            }}
+                        />
+                    </div>
+                </>
+            }
+            <div className={ styles.inputContainer }>
             <textarea
                 ref={ textareaRef }
                 className={ styles.input }
@@ -65,11 +91,16 @@ export const Input = () => {
                 }}
             />
 
-            <div className={ styles.inputControls }>
-                <button className={ styles.inputButton } onClick={ handleSubmit }>
-                    <Send/>
-                </button>
+                <div className={ styles.inputControls }>
+                    <button className={ styles.inputButton } onClick={ handleSubmit }>
+                        <Send/>
+                    </button>
+
+                    <button className={ styles.inputButton } onClick={ openGifGallery }>
+                        <GIF/>
+                    </button>
+                </div>
             </div>
-        </div>
+        </>
     )
 }

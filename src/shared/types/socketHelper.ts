@@ -103,7 +103,7 @@ class SocketHelper {
 
     join(socket: WebSocket) {
         this.send(socket, "room:data.get")
-        this.send(socket, "room:chat.get", { count: 10 })
+        this.send(socket, "room:chat.get", { count: 35 })
     }
 
     updatePlayer(socket: WebSocket, state: number, value: number = 0) {

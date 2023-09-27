@@ -17,7 +17,9 @@ const IndexCard = () => {
     const router = useRouter();
 
     useEffect(() => {
-        socketRef.current = new WebSocket(`${ process.env.WS_URL }/?${ getCookie("refreshToken") }`);
+        console.log(localStorage.getItem('refreshToken'))
+
+        socketRef.current = new WebSocket(`${ process.env.WS_URL }/?${ localStorage.getItem('refreshToken') }`);
         socketRef.current.onopen = () => {
             if (socketRef.current?.readyState === WebSocket.OPEN) {
                 socketRef.current?.send(

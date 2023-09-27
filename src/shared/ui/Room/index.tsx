@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { usePlayerContext } from "foxrave/store/playerStore";
+import PlayerStore, { usePlayerContext } from "foxrave/store/playerStore";
 import { useRoomContext } from "foxrave/store/roomStore";
 
 import styles from "foxrave/shared/assets/css/Room.module.css";
@@ -13,6 +13,7 @@ import { MediaCommunitySkin, MediaOutlet, MediaPlayer, MediaPoster } from '@vids
 import 'foxrave/shared/assets/css/player.css';
 
 import { Chat } from "foxrave/shared/ui/Room/helpers/Chat";
+import { AmbientLightCanvas } from "foxrave/shared/ui/Room/ambient/AmbientLightCanvas";
 
 interface RoomProps {
     roomId: string;
@@ -21,6 +22,8 @@ interface RoomProps {
 const Room = ({ roomId }: RoomProps) => {
     const roomStore = useRoomContext();
     const playerStore = usePlayerContext();
+
+    PlayerStore.getInstance()
 
     useEffect(() => {
         roomStore.connect(roomId);
@@ -36,25 +39,33 @@ const Room = ({ roomId }: RoomProps) => {
         <>
             <div className={ styles.container } />
 
-            <div className={ styles.playerContainer }>
+            <div className={ styles.ambilightWrapper }>
                 <MediaPlayer
-                    src="http://localhost:4242/api/v1/storage/video/3/getPlaylist"
-                    poster="http://localhost:4242/api/v1/storage/video/3/getPreview"
+                    src={ `${process.env.API_URL}/storage/video/1/getPlaylist` }
+                    poster={ `${process.env.API_URL}/storage/video/1/getPreview` }
                     aspectRatio={ 16 / 9 }
                     crossorigin=""
+                    onProviderSetup={ (event) => playerStore.providerSetup(event) }
                     onPlay={ (event) => playerStore.play(event, roomStore.socket) }
                     onPause={ (event) => playerStore.pause(event, roomStore.socket) }
+                    onEnded={ (event) => playerStore.ended(event) }
                     onSeeking={ (event) => playerStore.seeking(event, roomStore.socket) }
-                    onTimeUpdate={ (event) => playerStore.timeUpdate(event, roomStore.socket)}
+                    onSeeked={ (event) => playerStore.seeked(event) }
+                    onTimeUpdate={ (event) => playerStore.timeUpdate(event, roomStore.socket) }
                     ref={ playerStore.player }
+                    className={ styles.playerWrapper }
                 >
                     <MediaOutlet>
                         <MediaPoster
-                            alt="Sexy craig"
+                            alt="Poster"
                         />
                     </MediaOutlet>
                     <MediaCommunitySkin />
                 </MediaPlayer>
+
+                <div className={ styles.ambilightContainer }>
+                    <AmbientLightCanvas/>
+                </div>
             </div>
 
             <Chat/>

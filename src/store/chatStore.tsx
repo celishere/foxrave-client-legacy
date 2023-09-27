@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext } from "react";
+import React, { createContext, useContext, ReactNode } from "react";
 import { Context } from "foxrave/pages/_app";
 
 const ChatContext = createContext<ChatStore | undefined>(undefined);
@@ -25,19 +25,35 @@ export const ChatContextProvider: React.FC<AppContextProviderProps> = ({ childre
     );
 };
 
+export enum UserRole {
+    NONE,
+    VISITOR,
+    OWNER,
+    SERVER
+}
+
+export interface UserLocation {
+    city: string;
+    country: string;
+    latitude: number;
+    longitude: number;
+}
+
 export interface MessageProps {
     id: number;
     timestamp: number;
     text: string | undefined;
     attachments: Attachment[] | undefined;
     userId: string;
+    userRole: UserRole;
+    userLocation: UserLocation;
     username: string;
     avatar: string;
     mood: number;
     read: boolean
 }
 
-enum AttachmentType {
+export enum AttachmentType {
     MEDIA,
     FILE,
     GIF
@@ -53,6 +69,7 @@ export default class ChatStore {
 
     pushedHistory = new Map<number, MessageProps>();
     isSet: boolean = false;
+    isFetching: boolean = false;
 
     history = new Map<number, MessageProps>();
     typing: string = "";
@@ -101,6 +118,8 @@ export default class ChatStore {
     }
 
     set(messages: MessageProps[]): void {
+        this.history = new Map<number, MessageProps>()
+
         for (const key in Array.from(messages.keys())) {
             this.push(messages[key], true)
         }
@@ -122,7 +141,7 @@ export default class ChatStore {
         for (const key of Array.from(this.history.keys())) {
             const message = this.history.get(key)
 
-            if (message) {
+            if (message && !message.read) {
                 message.read = true
 
                 this.history.set(key, message)

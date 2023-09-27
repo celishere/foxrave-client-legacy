@@ -4,81 +4,98 @@ import ChatStore, { MessageProps } from "foxrave/store/chatStore";
 import ChatHelper from "foxrave/shared/types/chatHelper";
 
 import styles from "foxrave/shared/assets/css/Chat.module.css";
+
 import { UnreadMessagesButton } from "foxrave/shared/ui/Room/helpers/UnreadMessagesButton";
-import {Message} from "foxrave/shared/ui/Room/helpers/Message";
+import { Message } from "foxrave/shared/ui/Room/helpers/Message";
 
 export const History = () => {
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
-    const [messages, setMessages] = useState<MessageProps[]>([]);
+    const [messageGroups, setMessageGroups] = useState<MessageProps[][]>([]);
 
-    const scroll = () => {
-        if (chatContainerRef.current) {
-            const lastMessage = chatContainerRef.current.lastChild as HTMLDivElement;
+    const readCallback = () => {
+        const groups = ChatHelper.getInstance().groupMessages(
+            Array.from(ChatStore.getInstance().history.values())
+        )
 
-            if (lastMessage) {
-                // @ts-ignore
-                lastMessage.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
+        groups.forEach((group) => {
+            group.forEach((message) => {
+                if (!message.read && chatContainerRef.current) {
+                    const messageElement = chatContainerRef.current.querySelector(
+                        `[data-key="${message.id}"]`
+                    );
+
+                    if (messageElement != null) {
+                        console.log(`[Chat] Got element with ${message.id} id.`)
+                    }
+
+                    if (
+                        messageElement !== null &&
+                        ChatHelper.getInstance().isElementInViewport(messageElement)
+                    ) {
+                        message.read = true;
+
+                        ChatStore.getInstance().setById(message);
+
+                        // @ts-ignore
+                        const updatedGroups = groups.map((group) =>
+                            // @ts-ignore
+                            group.map((msg) => ({ ...msg }))
+                        );
+
+                        setMessageGroups(updatedGroups);
+                    } else if (messageElement === null) {
+                        console.log(`[Chat] Unknown element with ${message.id} id.`)
+                    }
+                }
+            });
+        });
     }
 
     const handleMessagesChange = (newMessages: MessageProps[]) => {
-        const needScroll = ChatHelper.getInstance().isUserScrolledToBottom()
-
-        setMessages(newMessages)
-
         if (chatContainerRef.current) {
-            setMessages((prevMessages) => {
-                const updatedMessages = [...prevMessages]; // Клонируем предыдущий массив сообщений
+            const checkId = newMessages.length - 2
+            let needScroll = false
 
-                updatedMessages.forEach((message) => {
-                    if (chatContainerRef.current !== null) {
-                        const messageElement = chatContainerRef.current.querySelector(`[data-key="${message.id}"]`);
+            if (newMessages[checkId] !== undefined) {
+                needScroll = ChatHelper.getInstance().isUserScrolledToBottom(
+                    chatContainerRef.current,
+                    newMessages[checkId].id
+                );
+            }
 
-                        if (messageElement !== null && ChatHelper.getInstance().isElementInViewport(messageElement)) {
-                            if (!message.read) {
-                                message.read = true;
+            setMessageGroups(ChatHelper.getInstance().groupMessages(newMessages));
 
-                                // Найдите индекс сообщения в массиве и обновите его
-                                const index = updatedMessages.findIndex((item) => item.id === message.id);
+            if (needScroll) {
+                setTimeout(() => {
+                    if (chatContainerRef.current) {
+                        readCallback()
 
-                                if (index !== -1) {
-                                    updatedMessages[index] = message;
-                                    ChatStore.getInstance().setById(message);
-                                }
-                            }
-                        }
+                        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
                     }
-                });
-
-                return updatedMessages; // Возвращаем обновленный массив сообщений
-            });
-        }
-
-        if (needScroll) {
-           setTimeout(() => {
-               if (chatContainerRef.current) {
-                   chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-               }
-           }, 50)
+                }, 50);
+            }
         }
     };
 
-    const handleSet = (newMessages: MessageProps[]) => {
-        setMessages(newMessages)
+    const handleSet = (messages: MessageProps[]) => {
+        setMessageGroups(ChatHelper.getInstance().groupMessages(messages));
 
         setTimeout(() => {
             if (chatContainerRef.current) {
-                console.log('scrolled')
-                chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+                if (!ChatStore.getInstance().isFetching) {
+                    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+                } else {
+                    ChatStore.getInstance().isFetching = false
+
+                    chatContainerRef.current.scrollTop = 5;
+                }
             }
         }, 50)
     }
 
     const handleSend = () => {
         setTimeout(() => {
-            console.log('?')
             if (chatContainerRef.current) {
                 chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
             }
@@ -98,53 +115,36 @@ export const History = () => {
     }, [])
 
     useEffect(() => {
-        const readCallback = () => {
-            if (chatContainerRef.current) {
-                setMessages((prevMessages) => {
-                    const updatedMessages = [...prevMessages]; // Клонируем предыдущий массив сообщений
-
-                    updatedMessages.forEach((message) => {
-                        if (chatContainerRef.current !== null) {
-                            const messageElement = chatContainerRef.current.querySelector(`[data-key="${message.id}"]`);
-
-                            if (messageElement !== null && ChatHelper.getInstance().isElementInViewport(messageElement)) {
-                                if (!message.read) {
-                                    message.read = true;
-
-                                    // Найдите индекс сообщения в массиве и обновите его
-                                    const index = updatedMessages.findIndex((item) => item.id === message.id);
-                                    if (index !== -1) {
-                                        updatedMessages[index] = message;
-                                        ChatStore.getInstance().setById(message);
-                                    }
-                                }
-                            }
-                        }
-                    });
-
-                    return updatedMessages; // Возвращаем обновленный массив сообщений
-                });
-            }
-        };
-
         const chatHistoryContainer = chatContainerRef.current;
 
         if (chatHistoryContainer) {
-            chatHistoryContainer.addEventListener("scroll", readCallback);
+            const handleScroll  = () => {
+                readCallback()
+
+                if (chatContainerRef.current) {
+                    if (chatContainerRef.current.scrollTop === 0) {
+                        ChatHelper.getInstance().requestMessages()
+                    }
+                }
+            }
+
+            chatHistoryContainer.addEventListener("scroll", handleScroll);
 
             readCallback();
 
             return () => {
-                chatHistoryContainer.removeEventListener("scroll", readCallback);
+                chatHistoryContainer.removeEventListener("scroll", handleScroll);
             };
         }
     }, []);
 
     return (
         <>
-            <div ref={ chatContainerRef } className={ styles.chatHistoryContainer } id={"chat-container"}>
-                { Array.from(messages.values()).map((message) => (
-                    <Message message={ message } />
+            <div ref={ chatContainerRef } className={ styles.chatHistoryContainer } id={ "chat-container" }>
+                { messageGroups.map((group, groupIndex) => (
+                    <div key={groupIndex}>
+                        <Message messages={ group } />
+                    </div>
                 )) }
 
                 <UnreadMessagesButton/>

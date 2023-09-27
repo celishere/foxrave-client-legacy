@@ -44,7 +44,7 @@ export default class Store {
         try {
             const response = await AuthService.login(username, password);
 
-            setCookie('refreshToken', response.data.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000 })
+            localStorage.setItem('refreshToken', response.data.refreshToken)
             localStorage.setItem('token', response.data.accessToken);
 
             this.setAuth(true);
@@ -66,7 +66,7 @@ export default class Store {
         try {
             const response = await AuthService.registration(email, username, password);
 
-            setCookie('refreshToken', response.data.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000 })
+            localStorage.setItem('refreshToken', response.data.refreshToken)
             localStorage.setItem('token', response.data.accessToken);
 
             this.setAuth(true);
@@ -121,9 +121,8 @@ export default class Store {
         try {
             const response = await $api.get<AuthResponse>(`${API_URL}/refresh`)
 
-            console.log(response.data);
             localStorage.setItem('token', response.data.accessToken);
-            setCookie('refreshToken', response.data.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000 })
+            localStorage.setItem('refreshToken', response.data.refreshToken)
 
             this.setAuth(true);
             this.setUser(response.data.user);

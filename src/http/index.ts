@@ -2,6 +2,8 @@ import axios from 'axios';
 import { getCookie } from "cookies-next";
 
 import { AuthResponse } from "foxrave/models/response/AuthResponse";
+import {useRouter} from "next/router";
+import {useEffect} from "react";
 
 export const API_URL = process.env.API_URL;
 
@@ -12,7 +14,7 @@ const $api = axios.create({
 
 $api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer: ${localStorage.getItem('token')}`
-    config.headers.refresh = getCookie("refreshToken");
+    config.headers.refresh = localStorage.getItem('refreshToken');
 
     return config;
 })

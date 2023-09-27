@@ -142,18 +142,29 @@
     width: 100%;
 
     margin-bottom: 8px;
-    margin-right: 10px;
 }
 
 .avatar {
     width: 36px;
     height: 36px;
-    margin-right: 1rem;
-
-    border: 2px solid rgba(163, 43, 255, 0.82);
-    border-radius: 50%;
+    margin-right: 0.6rem;
 
     cursor: pointer;
+}
+
+.visitorAvatar {
+    border: 2.5px solid rgba(163, 43, 255, 0.82);
+    border-radius: 50%;
+}
+
+.ownerAvatar {
+    border: 2.5px solid rgba(157, 0, 0, 0.82);
+    border-radius: 50%;
+}
+
+.serverAvatar {
+    border: 2.5px solid rgb(5, 93, 208);
+    border-radius: 50%;
 }
 
 .message-info {
@@ -380,9 +391,13 @@
 }
 
 .reply {
-    margin-bottom: 9px;
-    margin-left: 15px;
+    display: flex;
+
+    flex: 1 1;
+    flex-direction: row-reverse;
+
     color: #5d5d5d;
+
     border: none;
     cursor: pointer;
 
@@ -392,4 +407,40 @@
 
 .reply:hover {
     color: #333333;
+}
+
+.popover {
+    margin-right: 5px;
+    width: 350px;
+    height: 145px;
+}
+
+.popoverAvatar {
+    width: 100px;
+    height: 100px;
+}
+
+.popoverInfo {
+    display: flex;
+    align-items: center;
+
+    font-size: 22px;
+}
+
+.popoverMaps {
+    margin-right: 5px;
+    width: 350px;
+    height: 300px;
+}
+
+.popoverMapsContainer {
+    width: 320px;
+    height: 150px;
+
+    border: 2px solid #414141;
+}
+
+.gifSelector {
+    z-index: 999999999;
+    padding-bottom: 10px;
 }

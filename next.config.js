@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
+    reactStrictMode: false,
     transpilePackages: ['@vime/react'],
     env: {
         API_URL: `http://localhost:4242/api/v1`,
