@@ -1,9 +1,5 @@
-import { useContext } from "react";
-
 import Head from "next/head";
 import { useRouter } from "next/router";
-
-import { Context } from "foxrave/pages/_app";
 
 import Room from 'foxrave/shared/ui/Room';
 
@@ -13,8 +9,6 @@ import { PlayerContextProvider } from "foxrave/store/playerStore";
 import ChatStore, { ChatContextProvider } from "foxrave/store/chatStore";
 
 function RoomPage() {
-    let { store } = useContext(Context);
-
     const router = useRouter();
     const { id } = router.query;
 
@@ -24,7 +18,7 @@ function RoomPage() {
         return;
     }
 
-    return store.checkAccess(router, (
+    return (
         <>
             <Head>
                 <title>
@@ -40,7 +34,7 @@ function RoomPage() {
                 </ChatContextProvider>
             </RoomContextProvider>
         </>
-    ))
+    )
 }
 
 export default RoomPage;

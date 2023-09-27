@@ -1,22 +1,14 @@
-import { useContext } from "react";
-
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 import { Grid, Spacer, Text } from "@nextui-org/react";
 
 import { Logo } from "foxrave/shared/assets/svg/Logo";
 import styles from 'foxrave/shared/assets/css/Auth.module.css';
 
-
-import { Context } from "foxrave/pages/_app";
 import LoginCard from "foxrave/shared/ui/LoginCard";
 
 function Login() {
-    let { store } = useContext(Context);
-    const router = useRouter();
-
-    return store.checkAccess(router, (
+    return (
         <>
             <Head>
                 <title>
@@ -51,7 +43,7 @@ function Login() {
                 </div>
             </Grid>
         </>
-    ))
+    )
 }
 
 export default Login;

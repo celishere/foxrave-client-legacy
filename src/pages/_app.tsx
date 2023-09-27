@@ -1,14 +1,15 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 
-import { ThemeProvider } from "next-themes";
-import { createTheme, NextUIProvider } from "@nextui-org/react";
+import {useRouter} from "next/router";
 
-import { Toaster } from "react-hot-toast";
+import {ThemeProvider} from "next-themes";
+import {createTheme, NextUIProvider} from "@nextui-org/react";
 
-import Loading from "foxrave/shared/ui/Loading";
+import {Toaster} from "react-hot-toast";
 
-import { FoxRaveProvider } from "foxrave/shared/types/appContext";
-import Store, { AuthState } from "foxrave/store/store";
+import {FoxRaveProvider} from "foxrave/shared/types/appContext";
+
+import Store, {AuthState} from "foxrave/store/store";
 
 import "foxrave/shared/assets/css/globals.css";
 
@@ -27,26 +28,86 @@ export default function App({
                                 Component,
                                 pageProps: { ...pageProps }
                             }) {
+    const router = useRouter();
+
     const { store } = useContext(Context);
-    const [state, setState] = useState<AuthState>(AuthState.LOADING);
+    const [authorized, setAuthorized] = useState(false);
+
+    const authCheck = (url: string): void => {
+        const path = url.split('?')[0];
+
+        if (store.checkRoute(path)) {
+            // если это безопасный роут, рендерим страницу без проверки авторизации, т.к. она не нужна
+            setAuthorized(true)
+            return
+        }
+
+        store.checkAuth().then((state: AuthState) => {
+            console.log(state)
+            if (state === AuthState.VERIFICATION) {
+                if (path !== "/verify") {
+                    setAuthorized(false)
+
+                    router.push({
+                        pathname: '/login',
+                        query: { returnUrl: router.asPath }
+                    })
+                } else {
+                    // на этапе верификации аккаунт есть но он не подтвержден
+                    setAuthorized(true)
+                }
+                return
+            }
+
+            if (state === AuthState.SETUP) {
+                console.log('setup', path)
+                if (path !== "/setup") {
+                    setAuthorized(false)
+
+                    console.log('redirect?')
+
+                    router.push({
+                        pathname: '/setup',
+                        query: { returnUrl: router.asPath }
+                    })
+                } else {
+                    setAuthorized(true)
+                }
+                return
+            }
+
+            if (state === AuthState.AUTHORIZED) {
+                setAuthorized(true)
+                return;
+            }
+
+            if (!store.checkRoute(path)) {
+                setAuthorized(false)
+
+                router.push({
+                    pathname: '/login',
+                    query: { returnUrl: router.asPath }
+                })
+            } else {
+                setAuthorized(true)
+            }
+        })
+    }
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
-            store.checkAuth().then((state: AuthState) => {
-                store.setState(state)
-                setState(state);
-            });
-        } else {
-            store.setState(AuthState.UNAUTHORIZED);
-            setState(AuthState.UNAUTHORIZED);
+        authCheck(router.asPath)
+
+        const hideContent = () => setAuthorized(false);
+
+        router.events.on('routeChangeStart', hideContent);
+
+        router.events.on('routeChangeComplete', authCheck)
+
+        return () => {
+            router.events.off('routeChangeStart', hideContent);
+            router.events.off('routeChangeComplete', authCheck);
         }
     }, []);
-
-    if (state === AuthState.LOADING) {
-        return (
-            <Loading/>
-        )
-    }
 
     return (
         <Context.Provider value={{
@@ -63,7 +124,9 @@ export default function App({
                   <NextUIProvider>
                       <Toaster />
 
-                      <Component {...pageProps} />
+                      {
+                          authorized && <Component {...pageProps} />
+                      }
                   </NextUIProvider>
               </ThemeProvider>
           </FoxRaveProvider>

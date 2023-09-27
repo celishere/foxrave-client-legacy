@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import { deleteCookie } from 'cookies-next';
 
 import AuthService from "foxrave/services/AuthService";
 
@@ -9,9 +9,6 @@ import { AuthResponse } from "foxrave/models/response/AuthResponse";
 
 import $api, { API_URL } from "foxrave/http";
 
-import Loading from "foxrave/shared/ui/Loading";
-import Cookies from "universal-cookie";
-
 export enum AuthState {
     LOADING,
     UNAUTHORIZED,
@@ -19,6 +16,10 @@ export enum AuthState {
     SETUP,
     AUTHORIZED
 }
+
+export const PublicPaths = [
+    "/login", "/register"
+]
 
 export default class Store {
     user = {} as IUser;
@@ -72,6 +73,8 @@ export default class Store {
             this.setAuth(true);
             this.setUser(response.data.user);
             this.setState(AuthState.VERIFICATION);
+
+
             return true;
         } catch (e) {
             // @ts-ignore
@@ -119,10 +122,10 @@ export default class Store {
         this.state = AuthState.LOADING;
 
         try {
-            const response = await $api.get<AuthResponse>(`${API_URL}/refresh`)
+            const response = await $api.get<AuthResponse>(`${API_URL}/refresh`, { withCredentials: true })
+            console.log(response)
 
             localStorage.setItem('token', response.data.accessToken);
-            localStorage.setItem('refreshToken', response.data.refreshToken)
 
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -144,38 +147,7 @@ export default class Store {
         }
     }
 
-    checkAccess(router: any, page: JSX.Element) {
-        let path = router.asPath;
-
-        console.log(this.state)
-
-        let check = function (checkPage: string) {
-            console.log(path, checkPage)
-            if (path === checkPage) {
-                return page;
-            }
-
-            router.push(checkPage)
-        }
-
-        if (this.state === AuthState.UNAUTHORIZED) {
-            if (path === '/register' || path === '/login') {
-                return page;
-            }
-
-            router.push('/register')
-            return <Loading />
-        } else if (this.state === AuthState.VERIFICATION) {
-            return check('/verify')
-        } else if (this.state === AuthState.SETUP) {
-            return check('/setup')
-        } else if (this.state === AuthState.AUTHORIZED) {
-            if (path === '/setup' || path === '/register' || path === '/login') {
-                router.push('/')
-                return <Loading />;
-            }
-        }
-
-        return page;
+    checkRoute(path: string): boolean {
+        return PublicPaths.includes(path)
     }
 }
