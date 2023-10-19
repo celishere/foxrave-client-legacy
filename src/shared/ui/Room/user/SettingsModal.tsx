@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 
 import { Modal, Text } from "@nextui-org/react";
 
-import RoomStore from "foxrave/store/roomStore";
+import RoomStore from "foxrave/shared/store/roomStore";
+
 import SettingsButton from "foxrave/shared/ui/Room/user/SettingsButton";
 import SettingsAvatarPage from "foxrave/shared/ui/Room/user/SettingsAvatarPage";
 import SettingsMoodPage from "foxrave/shared/ui/Room/user/SettingsMoodPage";

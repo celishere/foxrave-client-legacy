@@ -1,15 +1,15 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
-import {ThemeProvider} from "next-themes";
-import {createTheme, NextUIProvider} from "@nextui-org/react";
+import { ThemeProvider } from "next-themes";
+import { createTheme, NextUIProvider } from "@nextui-org/react";
 
-import {Toaster} from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
-import {FoxRaveProvider} from "foxrave/shared/types/appContext";
+import { FoxRaveProvider } from "foxrave/shared/types/appContext";
 
-import Store, {AuthState} from "foxrave/store/store";
+import Store, { AuthState } from "foxrave/shared/store/authStore";
 
 import "foxrave/shared/assets/css/globals.css";
 
@@ -43,7 +43,6 @@ export default function App({
         }
 
         store.checkAuth().then((state: AuthState) => {
-            console.log(state)
             if (state === AuthState.VERIFICATION) {
                 if (path !== "/verify") {
                     setAuthorized(false)
@@ -60,11 +59,8 @@ export default function App({
             }
 
             if (state === AuthState.SETUP) {
-                console.log('setup', path)
                 if (path !== "/setup") {
                     setAuthorized(false)
-
-                    console.log('redirect?')
 
                     router.push({
                         pathname: '/setup',

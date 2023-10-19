@@ -1,8 +1,8 @@
-import $api from "foxrave/http";
+import $api from "foxrave/shared/http";
 
 import { AxiosResponse } from 'axios';
 
-import { AuthResponse } from "foxrave/models/response/AuthResponse";
+import { AuthResponse } from "foxrave/shared/types/models/response/AuthResponse";
 
 export default class StorageService {
 

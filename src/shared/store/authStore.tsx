@@ -2,12 +2,12 @@ import toast from "react-hot-toast";
 
 import { deleteCookie } from 'cookies-next';
 
-import AuthService from "foxrave/services/AuthService";
+import AuthService from "foxrave/shared/services/AuthService";
 
-import { IUser } from "foxrave/models/IUser";
-import { AuthResponse } from "foxrave/models/response/AuthResponse";
+import { IUser } from "foxrave/shared/types/models/IUser";
+import { AuthResponse } from "foxrave/shared/types/models/response/AuthResponse";
 
-import $api, { API_URL } from "foxrave/http";
+import $api, { API_URL } from "foxrave/shared/http";
 
 export enum AuthState {
     LOADING,
@@ -21,7 +21,7 @@ export const PublicPaths = [
     "/login", "/register"
 ]
 
-export default class Store {
+export default class AuthStore {
     user = {} as IUser;
     isAuth = false;
     state: AuthState = AuthState.LOADING;

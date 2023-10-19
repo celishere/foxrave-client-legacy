@@ -2,10 +2,11 @@ import Head from "next/head";
 
 import { Grid, Spacer, Text } from "@nextui-org/react";
 
-import { Logo } from "foxrave/shared/assets/svg/Logo";
-import styles from 'foxrave/shared/assets/css/Auth.module.css';
-
 import RegisterCard from "foxrave/shared/ui/RegisterCard";
+
+import { Logo } from "foxrave/shared/assets/svg/Logo";
+
+import styles from 'foxrave/shared/assets/css/Auth.module.css';
 
 function Register() {
     return (

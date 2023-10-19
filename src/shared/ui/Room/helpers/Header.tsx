@@ -6,12 +6,13 @@ import toast from "react-hot-toast";
 
 import { Dropdown, Text } from "@nextui-org/react";
 
-import styles from "foxrave/shared/assets/css/Chat.module.css";
 import { Logo } from "foxrave/shared/assets/svg/Logo";
 
 import { Context } from "foxrave/pages/_app";
 
-import RoomStore from "foxrave/store/roomStore";
+import RoomStore from "foxrave/shared/store/roomStore";
+
+import styles from "foxrave/shared/assets/css/Chat.module.css";
 
 export const Header = () => {
     const { store } = useContext(Context)

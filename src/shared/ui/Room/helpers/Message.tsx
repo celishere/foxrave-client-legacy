@@ -1,15 +1,14 @@
 import { Fragment, useState } from "react";
 
-import ChatStore, { MessageProps, UserRole } from "foxrave/store/chatStore";
+import { Grid, Popover, Spacer } from "@nextui-org/react";
+import { Circle, Map, YMaps } from "react-yandex-maps";
+
+import ChatStore, { MessageProps, UserRole } from "foxrave/shared/store/chatStore";
+import ChatHelper from "foxrave/shared/types/chatHelper";
 
 import { Reply } from "foxrave/shared/assets/svg/Reply";
 
 import styles from "foxrave/shared/assets/css/Chat.module.css";
-
-import ChatHelper from "foxrave/shared/types/chatHelper";
-
-import { Grid, Popover, Spacer } from "@nextui-org/react";
-import { Circle, Map, YMaps } from "react-yandex-maps";
 
 interface MessageContainerProps {
     messages: MessageProps[]

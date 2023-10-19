@@ -1,6 +1,8 @@
-import PlayerStore, { PlayerState } from "foxrave/store/playerStore";
-import ChatHistory from "foxrave/store/chatStore";
-import ChatStore from "foxrave/store/chatStore";
+import PlayerStore, { PlayerState } from "foxrave/shared/store/playerStore";
+import ChatHistory from "foxrave/shared/store/chatStore";
+import ChatStore from "foxrave/shared/store/chatStore";
+
+import { RoomDataEvent } from "foxrave/shared/types/models/events/RoomDataEvent";
 
 enum UserRole {
     NONE,
@@ -37,7 +39,30 @@ class SocketHelper {
                 if (isResponse) {
                     console.log("WebSocket | Connected.")
 
-                    this.userRole = data.role
+                    const eventData = data as RoomDataEvent;
+
+                    this.userRole = eventData.role.valueOf()
+
+                    const player = PlayerStore.getInstance().player.current
+                    if (player === null) {
+                        return;
+                    }
+
+                    player.currentTime = data.seek
+
+                    if (eventData.playback) {
+                        console.log("Player | Play attempt")
+
+                        player.play().then(() => {
+                            player.currentTime = data.seek
+                        })
+                    } else {
+                        player.pause().then(() => {
+                            player.currentTime = data.seek
+                        })
+                    }
+
+                    console.log(`Room Data | Paused: ${ !data.playback }, Seek: ${ data.seek }}`)
                 }
                 break;
             case "room:chat.get":

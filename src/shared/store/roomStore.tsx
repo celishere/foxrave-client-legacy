@@ -2,8 +2,8 @@ import React, { createContext, ReactNode, useContext } from 'react';
 
 import socketHelper from "foxrave/shared/types/socketHelper";
 
-import ChatHistory from "foxrave/store/chatStore";
-import ChatStore, { MessageProps } from "foxrave/store/chatStore";
+import ChatHistory from "foxrave/shared/store/chatStore";
+import ChatStore, { MessageProps } from "foxrave/shared/store/chatStore";
 
 const RoomContext = createContext<RoomStore | undefined>(undefined);
 

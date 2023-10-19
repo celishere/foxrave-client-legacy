@@ -1,19 +1,21 @@
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 
-import toast, {Toaster} from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
-import {Button, Grid, Spacer} from "@nextui-org/react";
+import { Button, Grid, Spacer } from "@nextui-org/react";
 
-import {Mood} from "foxrave/models/response/AuthResponse";
+import { Context } from "foxrave/pages/_app";
 
-import StorageService from "foxrave/services/StorageService";
+import SocketHelper, { UserState } from "foxrave/shared/types/socketHelper";
+
+import { Mood } from "foxrave/shared/types/models/response/AuthResponse";
+
+import AuthService from "foxrave/shared/services/AuthService";
+import StorageService from "foxrave/shared/services/StorageService";
+
+import RoomStore from "foxrave/shared/store/roomStore";
 
 import styles from "foxrave/shared/assets/css/Setup.module.css";
-import AuthService from "foxrave/services/AuthService";
-
-import RoomStore from "foxrave/store/roomStore";
-import SocketHelper, {UserState} from "foxrave/shared/types/socketHelper";
-import {Context} from "foxrave/pages/_app";
 
 interface SettingsPageProps {
     onQuit: () => void;

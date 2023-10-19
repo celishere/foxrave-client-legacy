@@ -5,18 +5,18 @@ import { Crop, PixelCrop, ReactCrop } from "react-image-crop";
 
 import toast, { Toaster } from "react-hot-toast";
 
-import { API_URL } from "foxrave/http";
+import { API_URL } from "foxrave/shared/http";
 import { Context } from "foxrave/pages/_app";
 
 import { useDebounceEffect } from "foxrave/shared/types/useDebounceEffect";
 import { canvasPreview } from "foxrave/shared/types/canvasPreview";
 
-import AuthService from "foxrave/services/AuthService";
+import AuthService from "foxrave/shared/services/AuthService";
 
 import styles from 'foxrave/shared/assets/css/Setup.module.css';
 
 import SocketHelper, { UserState } from "foxrave/shared/types/socketHelper";
-import RoomStore from "foxrave/store/roomStore";
+import RoomStore from "foxrave/shared/store/roomStore";
 
 import 'react-image-crop/dist/ReactCrop.css'
 

@@ -1,9 +1,12 @@
-import {Button, Card, Grid, Input, Spacer, Text} from "@nextui-org/react";
-import {useContext, useEffect, useRef, useState} from "react";
+import { Button, Card, Grid, Input, Spacer, Text } from "@nextui-org/react";
+import { useContext, useEffect, useRef, useState } from "react";
+
+import { useRouter } from "next/router";
+
+import { Context } from "foxrave/pages/_app";
+
 import socketHelper from "foxrave/shared/types/socketHelper";
-import {useRouter} from "next/router";
-import {Context} from "foxrave/pages/_app";
-import {getCookie} from "cookies-next";
+
 const IndexCard = () => {
     const { store } = useContext(Context);
 

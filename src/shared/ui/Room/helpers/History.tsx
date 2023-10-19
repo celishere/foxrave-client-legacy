@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
-import ChatStore, { MessageProps } from "foxrave/store/chatStore";
+import ChatStore, { MessageProps } from "foxrave/shared/store/chatStore";
 import ChatHelper from "foxrave/shared/types/chatHelper";
-
-import styles from "foxrave/shared/assets/css/Chat.module.css";
 
 import { UnreadMessagesButton } from "foxrave/shared/ui/Room/helpers/UnreadMessagesButton";
 import { Message } from "foxrave/shared/ui/Room/helpers/Message";
+
+import styles from "foxrave/shared/assets/css/Chat.module.css";
 
 export const History = () => {
     const chatContainerRef = useRef<HTMLDivElement>(null);

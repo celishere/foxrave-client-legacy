@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import styles from "foxrave/shared/assets/css/Chat.module.css";
 
-import ChatStore from "foxrave/store/chatStore";
+import ChatStore from "foxrave/shared/store/chatStore";
 
 export const Typing = () => {
     const [typing, setTyping] = useState<string>("");

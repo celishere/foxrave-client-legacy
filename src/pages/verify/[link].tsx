@@ -7,6 +7,7 @@ import Loading from "foxrave/shared/ui/Loading";
 
 function Verify() {
     let { store } = useContext(Context);
+
     const router = useRouter();
     const { link } = router.query;
 

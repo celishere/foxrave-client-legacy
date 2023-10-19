@@ -1,4 +1,4 @@
-import {Modal, Text} from "@nextui-org/react";
+import { Modal, Text } from "@nextui-org/react";
 
 const UploadModal = () => {
     return (

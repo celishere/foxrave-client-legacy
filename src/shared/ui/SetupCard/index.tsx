@@ -8,14 +8,14 @@ import toast from "react-hot-toast";
 
 import { Crop, PixelCrop, ReactCrop } from "react-image-crop";
 
-import { API_URL } from "foxrave/http";
+import { API_URL } from "foxrave/shared/http";
 
 import { Context } from "foxrave/pages/_app";
 
-import AuthService from "foxrave/services/AuthService";
-import StorageService from "foxrave/services/StorageService";
+import AuthService from "foxrave/shared/services/AuthService";
+import StorageService from "foxrave/shared/services/StorageService";
 
-import { Mood } from "foxrave/models/response/AuthResponse";
+import { Mood } from "foxrave/shared/types/models/response/AuthResponse";
 
 import { useDebounceEffect } from 'foxrave/shared/types/useDebounceEffect';
 import { canvasPreview } from 'foxrave/shared/types/canvasPreview';

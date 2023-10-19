@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import PlayerStore from "foxrave/store/playerStore";
+import { MediaPlayerElement } from "vidstack";
+
+import PlayerStore from "foxrave/shared/store/playerStore";
 
 import styles from "foxrave/shared/assets/css/Room.module.css";
-
-import { MediaPlayerElement } from "vidstack";
 
 export const AmbientLightCanvas = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);

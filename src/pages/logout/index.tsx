@@ -2,8 +2,9 @@ import { useContext, useEffect } from "react";
 
 import { useRouter } from "next/router";
 
-import Loading from "foxrave/shared/ui/Loading";
 import { Context } from "foxrave/pages/_app";
+
+import Loading from "foxrave/shared/ui/Loading";
 
 function Logout() {
     let { store } = useContext(Context);

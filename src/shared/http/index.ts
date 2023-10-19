@@ -1,9 +1,6 @@
 import axios from 'axios';
-import { getCookie } from "cookies-next";
 
 import { AuthResponse } from "foxrave/models/response/AuthResponse";
-import {useRouter} from "next/router";
-import {useEffect} from "react";
 
 export const API_URL = process.env.API_URL;
 

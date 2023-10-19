@@ -1,8 +1,17 @@
-import ChatStore, {Attachment, AttachmentType, MessageProps, UserLocation} from "foxrave/store/chatStore";
-import {useContext} from "react";
-import {Context} from "foxrave/pages/_app";
+import { useContext } from "react";
+
+import ChatStore, {
+    Attachment,
+    AttachmentType,
+    MessageProps,
+    UserLocation
+} from "foxrave/shared/store/chatStore";
+
 import SocketHelper from "foxrave/shared/types/socketHelper";
-import RoomStore from "foxrave/store/roomStore";
+
+import RoomStore from "foxrave/shared/store/roomStore";
+
+import { Context } from "foxrave/pages/_app";
 
 export default class ChatHelper  {
     static instance: ChatHelper | undefined

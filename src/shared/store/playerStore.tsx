@@ -12,7 +12,7 @@ import {
 } from "vidstack";
 
 import SocketHelper from "foxrave/shared/types/socketHelper";
-import ChatStore, { MessageProps } from "foxrave/store/chatStore";
+import ChatStore, { MessageProps } from "foxrave/shared/store/chatStore";
 
 const PlayerContext = createContext<PlayerStore | undefined>(undefined);
 

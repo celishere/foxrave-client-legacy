@@ -1,17 +1,19 @@
-import {cloneElement, FormEvent, MutableRefObject, useEffect, useRef, useState} from "react";
+import { FormEvent, MutableRefObject, useEffect, useRef, useState } from "react";
 
-import styles from "foxrave/shared/assets/css/Chat.module.css";
-import { Send } from "foxrave/shared/assets/svg/Send";
-
-import RoomStore from "foxrave/store/roomStore";
-import SocketHelper from "foxrave/shared/types/socketHelper";
+import classNames from "classnames";
 
 import GifPicker, { TenorImage, Theme } from "gif-picker-react";
-import { GIF } from "foxrave/shared/assets/svg/GIF";
+
+import RoomStore from "foxrave/shared/store/roomStore";
+import ChatStore, { MessageProps } from "foxrave/shared/store/chatStore";
 
 import ChatHelper from "foxrave/shared/types/chatHelper";
-import ChatStore, { MessageProps } from "foxrave/store/chatStore";
-import classNames from "classnames";
+import SocketHelper from "foxrave/shared/types/socketHelper";
+
+import { Send } from "foxrave/shared/assets/svg/Send";
+import { GIF } from "foxrave/shared/assets/svg/GIF";
+
+import styles from "foxrave/shared/assets/css/Chat.module.css";
 
 export const Input = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);

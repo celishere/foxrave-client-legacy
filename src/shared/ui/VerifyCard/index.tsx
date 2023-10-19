@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import {Button, Card, Input, Spacer, Text} from "@nextui-org/react";
+import { Button, Card, Input, Spacer, Text } from "@nextui-org/react";
 
 import { Context } from "foxrave/pages/_app";
 
