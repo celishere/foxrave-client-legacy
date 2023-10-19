@@ -164,11 +164,11 @@
     top: 0;
     transform: scale(1.1) translateZ(0);
 
-    width: calc(100% - 250px);
+    width: 100%;
 
     z-index: -1;
     height: 100%;
 
-    -webkit-filter: blur(80px) opacity(.5) saturate(300%);
-    filter: blur(80px) opacity(.5) saturate(300%);
+    -webkit-filter: blur(40px) opacity(.5) saturate(300%);
+    filter: blur(40px) opacity(.5) saturate(300%);
 }

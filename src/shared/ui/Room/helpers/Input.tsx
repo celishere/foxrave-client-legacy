@@ -1,4 +1,4 @@
-import { FormEvent, MutableRefObject, useEffect, useRef, useState } from "react";
+import {cloneElement, FormEvent, MutableRefObject, useEffect, useRef, useState} from "react";
 
 import styles from "foxrave/shared/assets/css/Chat.module.css";
 import { Send } from "foxrave/shared/assets/svg/Send";
@@ -10,12 +10,16 @@ import GifPicker, { TenorImage, Theme } from "gif-picker-react";
 import { GIF } from "foxrave/shared/assets/svg/GIF";
 
 import ChatHelper from "foxrave/shared/types/chatHelper";
+import ChatStore, { MessageProps } from "foxrave/store/chatStore";
+import classNames from "classnames";
 
 export const Input = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const typingTimeoutRef: MutableRefObject<number | null> = useRef(null);
 
     const [inputValue, setInputValue] = useState("");
+
+    const [reply, setReply] = useState<MessageProps | undefined>(undefined);
 
     const [usingGif, setUsingGif] = useState(false);
 
@@ -53,11 +57,31 @@ export const Input = () => {
         e.preventDefault();
 
         if (inputValue.trim().length !== 0) {
-            SocketHelper.send(RoomStore.getInstance().socket, "room:chat.push", { text: inputValue })
+            SocketHelper.send(RoomStore.getInstance().socket, "room:chat.push", { text: inputValue, reply: reply })
 
             setInputValue("");
+            setReply(undefined)
         }
     };
+
+    const replyListener = (message: MessageProps): void => {
+        let messageCache = structuredClone(message);
+        if (message.attachments?.length !== 0) {
+            messageCache.text = `${message.username}: GIF изображение`
+        } else {
+            messageCache.text = `${message.username}: ${message.text}`
+        }
+
+        setReply(messageCache)
+    }
+
+    useEffect(() => {
+        ChatStore.getInstance().addReplyListener(replyListener)
+
+        return () => {
+            ChatStore.getInstance().removeReplyListener(replyListener)
+        }
+    }, []);
 
     return (
         <>
@@ -75,21 +99,35 @@ export const Input = () => {
                     </div>
                 </>
             }
-            <div className={ styles.inputContainer }>
-            <textarea
-                ref={ textareaRef }
-                className={ styles.input }
-                value={ inputValue }
-                onChange={ handleInput }
-                placeholder="Введите сообщение..."
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
 
-                        handleSubmit(e);
-                    }
-                }}
-            />
+            {
+                reply !== undefined && <div className={ styles.replyContainer }>
+                    <div className={ styles.replyHeader }>
+                        <div onClick={ () => { setReply(undefined) }}>
+                            Close
+                        </div>
+                    </div>
+                    <div className={ classNames(styles.replyText, styles.replyInContainerText) }>
+                        { reply.text }
+                    </div>
+                </div>
+            }
+
+            <div className={ styles.inputContainer }>
+                <textarea
+                    ref={ textareaRef }
+                    className={ styles.input }
+                    value={ inputValue }
+                    onChange={ handleInput }
+                    placeholder="Введите сообщение..."
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+
+                            handleSubmit(e);
+                        }
+                    }}
+                />
 
                 <div className={ styles.inputControls }>
                     <button className={ styles.inputButton } onClick={ handleSubmit }>

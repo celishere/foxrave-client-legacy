@@ -10,10 +10,10 @@ import 'vidstack/styles/community-skin/video.css';
 
 import { MediaCommunitySkin, MediaOutlet, MediaPlayer, MediaPoster } from '@vidstack/react';
 
-import 'foxrave/shared/assets/css/player.css';
-
 import { Chat } from "foxrave/shared/ui/Room/helpers/Chat";
 import { AmbientLightCanvas } from "foxrave/shared/ui/Room/ambient/AmbientLightCanvas";
+
+import SettingsModal from "foxrave/shared/ui/Room/user/SettingsModal";
 
 interface RoomProps {
     roomId: string;
@@ -41,8 +41,8 @@ const Room = ({ roomId }: RoomProps) => {
 
             <div className={ styles.ambilightWrapper }>
                 <MediaPlayer
-                    src={ `${process.env.API_URL}/storage/video/1/getPlaylist` }
-                    poster={ `${process.env.API_URL}/storage/video/1/getPreview` }
+                    src={ `${ process.env.API_URL }/storage/video/1/getPlaylist` }
+                    poster={ `${ process.env.API_URL }/storage/video/1/getPreview` }
                     aspectRatio={ 16 / 9 }
                     crossorigin=""
                     onProviderSetup={ (event) => playerStore.providerSetup(event) }
@@ -59,6 +59,15 @@ const Room = ({ roomId }: RoomProps) => {
                         <MediaPoster
                             alt="Poster"
                         />
+
+                        <track
+                            src={ `${ process.env.API_URL }/storage/video/1/getSubtitle` }
+                            kind="subtitles"
+                            label="English"
+                            srcLang="en-US"
+                            default
+                            datatype="vtt"
+                        />
                     </MediaOutlet>
                     <MediaCommunitySkin />
                 </MediaPlayer>
@@ -69,6 +78,7 @@ const Room = ({ roomId }: RoomProps) => {
             </div>
 
             <Chat/>
+            <SettingsModal/>
         </>
     )
 }

@@ -51,7 +51,6 @@ export default class Store {
             this.setAuth(true);
             this.setUser(response.data.user);
 
-            window.location.reload();
             return true;
         } catch (e) {
             // @ts-ignore
@@ -123,7 +122,6 @@ export default class Store {
 
         try {
             const response = await $api.get<AuthResponse>(`${API_URL}/refresh`, { withCredentials: true })
-            console.log(response)
 
             localStorage.setItem('token', response.data.accessToken);
 

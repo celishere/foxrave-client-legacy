@@ -1,0 +1,45 @@
+.container {
+    margin: 0 auto;
+
+    width: 90%;
+    height: 80px;
+
+    border-radius: 5px;
+
+    background: #4d4b4b;
+
+    display: flex;
+}
+
+.iconContainer {
+    width: 70px;
+    height: 70px;
+
+    margin-left: 8px;
+
+    border-radius: 5px;
+
+    transform: translateY(8%);
+
+    background: #6b6969;
+}
+
+.icon {
+    width: 68px;
+    height: 68px;
+
+    margin: 0 auto;
+}
+
+.textContainer {
+    text-align: center;
+    margin: 0 auto;
+
+    transform: translateY(25.5%);
+}
+
+.text {
+    font-size: 24px;
+
+    color: #FFFFFF;
+}

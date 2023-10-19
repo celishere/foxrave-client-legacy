@@ -117,6 +117,7 @@ const VerifyCard = () => {
                 .then((blob) => {
                     AuthService.uploadAvatar(blob, `${store.user.id}.png`)
                         .then(response => {
+                            store.setUser(response.data.user)
                             toast.success(response.data.message)
 
                             setStep(2);
@@ -141,9 +142,8 @@ const VerifyCard = () => {
 
 
     const handleMoodSet = () => {
-        AuthService.setMood(mood).then(response => {
-            toast.success("We`re ready");
-
+        AuthService.setMood(mood).then((response) => {
+            store.setUser(response.data.user)
             router.push("/")
         })
     }

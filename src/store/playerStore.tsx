@@ -12,6 +12,7 @@ import {
 } from "vidstack";
 
 import SocketHelper from "foxrave/shared/types/socketHelper";
+import ChatStore, { MessageProps } from "foxrave/store/chatStore";
 
 const PlayerContext = createContext<PlayerStore | undefined>(undefined);
 
@@ -32,7 +33,7 @@ export const usePlayerContext = () => {
 export const PlayerContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
     return (
         <PlayerContext.Provider value={ PlayerStore.getInstance() }>
-            {children}
+            { children }
         </PlayerContext.Provider>
     );
 };
@@ -53,6 +54,8 @@ enum UserRole {
 export default class PlayerStore {
     lastTime: number = 0
     isPaused: boolean = false
+
+    hostSyncFailedTimes = 0
 
     listeners: ((video: HTMLVideoElement) => void)[] = [];
 
@@ -84,9 +87,9 @@ export default class PlayerStore {
         }
     }
 
-    play(event: MediaPlayEvent, socket: WebSocket): void {
+    async play(event: MediaPlayEvent, socket: WebSocket): Promise<void> {
         if (this.isPaused && SocketHelper.userRole !== UserRole.OWNER) {
-            event.target.pause()
+            await event.target.pause()
 
             console.log("Player | Rejected resume")
             return
@@ -133,16 +136,12 @@ export default class PlayerStore {
 
             SocketHelper.updatePlayer(socket, PlayerState.SEEK, time)
         } else {
-            if (time - this.lastTime > 1) {
+            if (time - this.lastTime > 4 || time - this.lastTime < 4) {
                 event.target.currentTime = this.lastTime
 
                 console.log("Player | Rejected seeking")
             }
         }
-
-        this.onSeekedListeners.forEach((listener) => {
-            listener(event.target);
-        });
     }
 
     ended(event: MediaEndedEvent): void {
@@ -173,6 +172,22 @@ export default class PlayerStore {
                 console.log(`Player | Synced with host ${time} -> ${this.lastTime}`)
 
                 event.target.currentTime = this.lastTime
+
+                this.hostSyncFailedTimes++
+
+                if (this.hostSyncFailedTimes === 5) {
+                    this.hostSyncFailedTimes = 0
+
+                    ChatStore.getInstance().push({
+                        userId: "server",
+                        userRole: 3,
+                        username: "Сервер",
+                        avatar: `${ process.env.API_URL }/storage/avatar/server`,
+                        timestamp: Date.now(),
+                        mood: 25,
+                        text: "Похоже что вы не успеваете за хостом, советуем вам понизить качество ИЛИ КУПИТЬ НОРМ ИНЕТ"
+                    } as MessageProps)
+                }
             }
         }
     }
@@ -236,7 +251,6 @@ export default class PlayerStore {
     }
 
     private notifyListeners(player: HTMLVideoElement): void {
-        console.log(this.listeners)
         console.log("[Player] Ambient light setup...", this.listeners.length)
 
         this.listeners.forEach((listener) => {

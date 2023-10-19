@@ -1,5 +1,5 @@
 .chatFrame {
-    background: #000000;
+    background: rgba(0.0, 0.0, 0.0, 0.6);
     word-wrap: break-word;
     outline: none;
     box-sizing: border-box;
@@ -55,8 +55,8 @@
     padding-top: 0px;
     position: relative;
     width: 260px;
-    background: #000000;
-    border: 1.5px solid rgba(140, 0, 255, 0.44);
+    background: rgba(0.0, 0.0, 0.0, 0.1);
+    border: 1.5px solid rgba(171, 59, 255, 0.44);
     border-radius: 4px;
     transition: all 2s ease 0s;
 }
@@ -443,4 +443,92 @@
 .gifSelector {
     z-index: 999999999;
     padding-bottom: 10px;
+}
+
+.messageContainer {
+    display: flex;
+}
+
+.messageElement {
+    width: 92%;
+}
+
+.replyContainer {
+    background: #1a1a1a;
+
+    border-radius: 5px;
+    margin-bottom: 5px;
+
+    width: 95%;
+    height: 50px;
+}
+
+.replyHeader {
+    height: 14px;
+
+    font-size: 14px;
+
+    display: flex;
+    justify-content: space-between;
+
+    width: 90%;
+
+    margin: 0 auto;
+
+    cursor: pointer;
+}
+
+.replyText {
+    margin: 0 auto;
+    width: 90%;
+    height: 40px;
+
+    padding-top: 3.5%;
+
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    line-height: 12px;
+
+    font-size: 11px;
+}
+
+.replyInContainerText {
+    height: 35px;
+}
+
+.messageWithReply {
+    background: #171717;
+    border-radius: 5px;
+
+    margin-bottom: 5px;
+}
+
+.replyInContainer {
+    margin: 0 auto;
+
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+    width: 90%;
+    height: 50px;
+
+    background: #4d4c4c;
+
+    border-radius: 5px;
+}
+
+.messageWithReplyText {
+    padding-top: 4px;
+
+    width: 90%;
+    margin: 0 auto;
+}
+
+.replySpacer {
+    padding-top: 4px;
 }

@@ -50,7 +50,8 @@ export interface MessageProps {
     username: string;
     avatar: string;
     mood: number;
-    read: boolean
+    read: boolean;
+    reply: MessageProps | undefined;
 }
 
 export enum AttachmentType {
@@ -78,6 +79,8 @@ export default class ChatStore {
     setListeners: ((messages: MessageProps[]) => void)[] = [];
     sendListeners: (() => void)[] = [];
     typingListeners: ((typing: string) => void)[] = [];
+
+    replyListeners: ((message: MessageProps) => void)[] = []
 
     static instance: ChatStore | undefined
 
@@ -205,6 +208,18 @@ export default class ChatStore {
         }
     }
 
+    addReplyListener(listener: (message: MessageProps) => void): void {
+        this.replyListeners.push(listener);
+    }
+
+    removeReplyListener(listener: (message: MessageProps) => void): void {
+        const index = this.replyListeners.indexOf(listener);
+
+        if (index !== -1) {
+            this.replyListeners.splice(index, 1);
+        }
+    }
+
     private notifyListeners(): void {
         const messages = Array.from(this.history.values());
 
@@ -230,6 +245,12 @@ export default class ChatStore {
     private notifySendListeners(): void {
         this.sendListeners.forEach((listener) => {
             listener();
+        });
+    }
+
+    public notifyReplyListeners(message: MessageProps): void {
+        this.replyListeners.forEach((listener) => {
+            listener(message);
         });
     }
 }

@@ -17,8 +17,6 @@ const IndexCard = () => {
     const router = useRouter();
 
     useEffect(() => {
-        console.log(localStorage.getItem('refreshToken'))
-
         socketRef.current = new WebSocket(`${ process.env.WS_URL }/?${ localStorage.getItem('refreshToken') }`);
         socketRef.current.onopen = () => {
             if (socketRef.current?.readyState === WebSocket.OPEN) {
@@ -36,7 +34,6 @@ const IndexCard = () => {
             let message = JSON.parse(event.data);
 
             if (message.event === "main:rooms.fetch" && message.isResponse) {
-                console.log("got rooms")
                 setRooms(message.data.rooms);
 
                 console.log(rooms.map((room) => {
@@ -50,6 +47,12 @@ const IndexCard = () => {
                 router.push("/rooms/" + message.data.id);
             }
         }
+
+        return () => {
+            console.log("[Index] Closed socket.")
+
+            socketRef.current?.close()
+        }
     }, []);
 
     const joinRoom = () => {
@@ -61,8 +64,6 @@ const IndexCard = () => {
     };
 
     const createRoom = () => {
-        console.log('press')
-        console.log(socketRef.current)
         if (socketRef.current != undefined) {
             socketHelper.send(socketRef.current, "main:room.create", {
                 video: "1",

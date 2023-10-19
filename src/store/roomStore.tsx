@@ -1,8 +1,9 @@
-import React, {createContext, ReactNode, useContext} from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
+
 import socketHelper from "foxrave/shared/types/socketHelper";
-import {getCookie} from "cookies-next";
+
 import ChatHistory from "foxrave/store/chatStore";
-import ChatStore, {MessageProps} from "foxrave/store/chatStore";
+import ChatStore, { MessageProps } from "foxrave/store/chatStore";
 
 const RoomContext = createContext<RoomStore | undefined>(undefined);
 
@@ -39,6 +40,8 @@ enum UserRole {
 export default class RoomStore {
     socket = {} as WebSocket;
     chatHistory: ChatHistory | null = null;
+
+    settingsModalListeners: ((value: boolean) => void)[] = []
 
     retries = 0
 
@@ -98,5 +101,23 @@ export default class RoomStore {
                 this.connect(id)
             }, 3000)
         }
+    }
+
+    addSettingsListener(listener: (value: boolean) => void) {
+        this.settingsModalListeners.push(listener)
+    }
+
+    removeSettingsListener(listener: (value: boolean) => void) {
+        const index = this.settingsModalListeners.indexOf(listener);
+
+        if (index !== -1) {
+            this.settingsModalListeners.splice(index, 1);
+        }
+    }
+
+    notifySettingsListeners(value: boolean) {
+        this.settingsModalListeners.forEach((listener) => {
+            listener(value);
+        });
     }
 }

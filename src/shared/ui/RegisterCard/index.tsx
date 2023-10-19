@@ -20,7 +20,6 @@ const RegisterCard = () => {
             store.registration(email, username, password).then((value) => {
                 if (value) {
                     setTimeout(() => {
-                        console.log('go')
                         router.push("/verify")
                     }, 1000)
                 }

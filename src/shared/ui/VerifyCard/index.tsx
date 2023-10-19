@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { Card, Spacer, Text } from "@nextui-org/react";
+import {Button, Card, Input, Spacer, Text} from "@nextui-org/react";
 
 import { Context } from "foxrave/pages/_app";
 
@@ -56,6 +56,23 @@ const VerifyCard = () => {
                 >
                     Проверьте папку "СПАМ"
                 </Text>
+
+                <Spacer y={1}/>
+
+                <Text
+                    weight="bold"
+                    size={20}
+                >
+                    ИЛИ
+                </Text>
+
+                <Spacer y={1}/>
+
+                <Input placeholder={"У меня уже есть код!"} size={"xl"} color={"secondary"}/>
+
+                <Spacer y={1}/>
+
+                <Button>Активировать</Button>
             </Card.Body>
         </Card>
     )

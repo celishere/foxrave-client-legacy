@@ -1,8 +1,9 @@
 import { Fragment, useState } from "react";
 
-import { MessageProps, UserRole } from "foxrave/store/chatStore";
+import ChatStore, { MessageProps, UserRole } from "foxrave/store/chatStore";
 
 import { Reply } from "foxrave/shared/assets/svg/Reply";
+
 import styles from "foxrave/shared/assets/css/Chat.module.css";
 
 import ChatHelper from "foxrave/shared/types/chatHelper";
@@ -16,13 +17,16 @@ interface MessageContainerProps {
 
 export const Message = ({ messages }: MessageContainerProps) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [hoverId, setHoverId] = useState(-1);
 
-    const handleMouseEnter = () => {
+    const handleMouseEnter = (id: number) => {
         setIsHovered(true);
+        setHoverId(id);
     };
 
     const handleMouseLeave = () => {
         setIsHovered(false);
+        setHoverId(-1);
     };
 
     const data = messages[0]
@@ -41,21 +45,33 @@ export const Message = ({ messages }: MessageContainerProps) => {
                 <p id={ message.id } data-key={ message.id }>
                     {
                         message.attachments !== undefined && message.attachments.length !== 0 ?
-                            <img src={ message.attachments[0].url } alt={"gif"}/>
-                            :
-                            <>{ message.text }</>
+                            <img src={ message.attachments[0].url } alt={ "gif" }/>
+                            : (message.reply !== undefined ? <div className={ styles.messageWithReply }>
+                                <div className={ styles.replySpacer }/>
+                                <div className={ styles.replyInContainer }>
+                                    <div className={ styles.replyText }>
+                                        { message.reply.text }
+                                    </div>
+                                </div>
+                                <div className={ styles.messageWithReplyText }>
+                                    { message.text }
+                                </div>
+                            </div> : <>{ message.text }</>)
+
                     }
-                    <br/>
+
+                    {
+                        message.reply === undefined && <br/>
+                    }
                 </p>
             }
         </Fragment>
     ));
+
     return (
         <div
             key={ data.id }
             className={ styles.message }
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
         >
             <Popover isBordered disableShadow placement={"left-top"}>
                 <Popover.Trigger>
@@ -120,21 +136,48 @@ export const Message = ({ messages }: MessageContainerProps) => {
                     <time data-variant="caption" data-color="gray" title=""
                           className={ styles.time }>{ ChatHelper.getInstance().parseTime(data.timestamp) }
                     </time>
-
-                    {
-                        isHovered ? (
-                            <div className={ styles.reply }>
-                                <Reply/>
-                            </div>
-                        ) : null
-                    }
                 </div>
 
                 <div>
                     <div className={ styles.messageText }>
-                        { messageElements.map((messageElement) => (
-                            messageElement
-                        )) }
+                        { messageElements.map((messageElement) => {
+                            const messageId = Number(messageElement.key)
+                            let hoveredMessage: MessageProps | null | undefined = null
+
+                            for (const message of messages) {
+                                if (message.id === messageId) {
+                                    hoveredMessage = message
+                                    break
+                                }
+                            }
+
+                            return (
+                                <div
+                                    onMouseEnter={ () => handleMouseEnter(messageId) }
+                                    onMouseLeave={ () => handleMouseLeave() }
+                                    className={ styles.messageContainer }
+                                >
+                                    <div className={ styles.messageElement }>
+                                        { messageElement }
+                                    </div>
+
+                                    {
+                                        isHovered &&
+                                        typeof hoveredMessage !== "undefined" &&
+                                        hoveredMessage !== null &&
+                                        hoverId === messageId ? (
+                                            <div
+                                                className={ styles.reply }
+                                                onClick={ () => { // @ts-ignore
+                                                    ChatStore.getInstance().notifyReplyListeners(hoveredMessage) } }
+                                            >
+                                                <Reply/>
+                                            </div>
+                                        ) : null
+                                    }
+                                </div>
+                            )
+                        }) }
                     </div>
                 </div>
             </div>

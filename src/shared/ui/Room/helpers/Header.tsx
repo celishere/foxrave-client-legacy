@@ -11,19 +11,23 @@ import { Logo } from "foxrave/shared/assets/svg/Logo";
 
 import { Context } from "foxrave/pages/_app";
 
+import RoomStore from "foxrave/store/roomStore";
+
 export const Header = () => {
     const { store } = useContext(Context)
     const router = useRouter()
 
     const handleDropdown = (key: Key) => {
         if (key === "settings") {
-            //setSettingsModal(true);
+            RoomStore.getInstance().notifySettingsListeners(true)
+            return
         }
 
         if (key === "quit") {
             toast.success("Вы вышли из комнаты!")
 
             router.push("/")
+            return
         }
     }
 

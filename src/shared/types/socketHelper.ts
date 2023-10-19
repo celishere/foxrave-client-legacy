@@ -8,6 +8,11 @@ enum UserRole {
     OWNER
 }
 
+export enum UserState {
+    AVATAR,
+    MOOD
+}
+
 class SocketHelper {
     roomId: string | undefined;
     userRole: UserRole = UserRole.NONE;
@@ -57,6 +62,9 @@ class SocketHelper {
             case "room:chat.typing":
                 ChatHistory.getInstance().setTyping(data.message)
                 break;
+            case "room:user_update":
+                console.log("WebSocket | User update.")
+                break;
             case "room:player":
                 console.log(`WebSocket | Player: ${JSON.stringify(data)}`)
 
@@ -68,8 +76,6 @@ class SocketHelper {
                         }
 
                         this.playerStore?.player.current.play()
-
-                        console.log(this.playerStore)
                         break;
                     case PlayerState.PAUSE:
                         if (this.playerStore?.player.current === null) {
@@ -110,6 +116,13 @@ class SocketHelper {
         this.send(socket, "room:player", {
             state,
             value
+        })
+    }
+
+    updateUser(socket: WebSocket, state: UserState, to: string) {
+        this.send(socket, "room:user.update", {
+            state,
+            to
         })
     }
 }

@@ -26,3 +26,40 @@ html, body, #app, #app>div {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.45);
 }
+
+media-player {
+    width: calc(100% - 300px);
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+    --vm-controls-height: 0 !important;
+}
+
+.playerContainer {
+    width: calc(100% - 292px);
+    position: relative;
+}
+
+:where(media-player[aspect-ratio]:not([data-fullscreen]) media-outlet) {
+    height: 100% !important;
+    padding-bottom: 0px !important;
+}
+
+:where(media-community-skin[data-video] div[part=scrim]) {
+    background-color: rgba(0.0, 0.0, 0.0, 0.0) !important;
+}
+
+:where(media-player[data-view-type='video']:not([data-fullscreen])) :where(media-outlet, video, media-poster, div[part='scrim']) {
+    display: flex;
+}
+
+:where(media-outlet) {
+    background-color: rgba(0.0, 0.0, 0.0, 0.0) !important;
+}
+
+:where(media-player[data-view-type='video']) {
+    background: rgba(0.0, 0.0, 0.0, 0.2) !important;
+}

@@ -1,11 +1,7 @@
-import { useContext } from "react";
-
-import { useRouter } from "next/router";
-
-import { Context } from "foxrave/pages/_app";
-
 import { Grid } from "@nextui-org/react";
+
 import styles from 'foxrave/shared/assets/css/Auth.module.css';
+
 import IndexCard from "foxrave/shared/ui/IndexCard";
 
 function App() {
